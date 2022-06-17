@@ -1,5 +1,9 @@
-import { useState } from 'react';
-import ReactFlow, { ReactFlowProvider } from 'react-flow-renderer';
+import { useEffect, useState } from 'react';
+import create from 'zustand';
+import ReactFlow, {
+  ReactFlowProvider,
+  useReactFlow,
+} from 'react-flow-renderer';
 
 const initialNodes = [
   {
@@ -17,24 +21,12 @@ export default function App() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
-  function createNode() {
-    setNodes((n) => {
-      return [
-        ...n,
-        {
-          id: '3',
-          data: { label: 'Third Node' },
-          position: { x: 250, y: 225 },
-        },
-      ];
-    });
-  }
+  const store = useStoreApi();
+  const reactFlowInstance = useReactFlow();
 
-  function createEdge() {
-    setEdges((e) => {
-      return [...e, { id: 'e2-3', source: '2', target: '3' }];
-    });
-  }
+  useEffect(() => {
+    console.log(reactFlowInstance);
+  }, []);
 
   window.addEventListener('keydown', (e) => {
     handleKeyDown(e.key);
@@ -42,8 +34,7 @@ export default function App() {
 
   function handleKeyDown(key) {
     if (key === 's') {
-      createNode();
-      createEdge();
+      // add a node below and connect it with previous node
     }
   }
 
@@ -56,3 +47,22 @@ export default function App() {
     </div>
   );
 }
+
+// function createNode() {
+//   setNodes((n) => {
+//     return [
+//       ...n,
+//       {
+//         id: '3',
+//         data: { label: 'Third Node' },
+//         position: { x: 250, y: 225 },
+//       },
+//     ];
+//   });
+// }
+
+// function createEdge() {
+//   setEdges((e) => {
+//     return [...e, { id: 'e2-3', source: '2', target: '3' }];
+//   });
+// }
