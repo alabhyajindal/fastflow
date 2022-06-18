@@ -25,7 +25,6 @@ function FitView() {
   const reactFlowInstance = useReactFlow();
   useEffect(() => {
     reactFlowInstance.fitView();
-    console.log('fitView ran');
   });
 }
 
@@ -40,14 +39,18 @@ export default function App() {
   // Create mode is default on page load. The mode switches to edit when the user adds a node. This allows the user to change the label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
 
   // Press 'i' to change the label of the node. Press 'Enter' to finish label and go back to creating nodes.
-  // - Press 'i' to show or hide the input field
+  // - Press 'i' to show or hide the input field - done
+  // Press 'Enter' while input field is active to complete editing - done
+  // Press 'i' to change the label of the latest node
 
   const [nodeLabel, setNodeLabel] = useState('Edit');
 
   useEffect(() => {
     setNodes((n) =>
       n.map((node) => {
-        if (node.id === '1') {
+        const currentNodeId = n[n.length - 1].id;
+        console.log(currentNodeId);
+        if (node.id === currentNodeId) {
           node.data = {
             ...node.data,
             label: nodeLabel,
@@ -113,9 +116,12 @@ export default function App() {
     inputRef.current.focus();
   }
 
-  // function enableCreateMode() {
-  //   inputRef.current.hidden = true;
-  // }
+  function enableCreateMode(e) {
+    if (e.key === 'Enter') {
+      inputRef.current.hidden = true;
+      reactFlowRef.current.focus();
+    }
+  }
 
   function handleKeyDown(e) {
     if (e.key === 's' || e.key === 'd' || e.key === 'a') {
@@ -124,9 +130,6 @@ export default function App() {
     } else if (e.key === 'i') {
       enableInputMode();
     }
-    // else if (e.key === 'Escape') {
-    //   enableCreateMode();
-    // }
   }
 
   return (
@@ -153,7 +156,7 @@ export default function App() {
             type='text'
             value={nodeLabel}
             onChange={(e) => setNodeLabel(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && reactFlowRef.current.focus()}
+            onKeyDown={enableCreateMode}
             hidden
           />
         </div>
