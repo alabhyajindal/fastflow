@@ -12,14 +12,15 @@ const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'First Node' },
+    data: { label: `Node 1` },
     position: { x: 250, y: 25 },
   },
-  { id: '2', data: { label: 'Second Node' }, position: { x: 250, y: 125 } },
+  { id: '2', data: { label: 'Node 2' }, position: { x: 250, y: 125 } },
 ];
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
+// fitView method is extracted to a seperate component as reactFlowInstance can be accessed only by child elements of ReactFlowProvider.
 function FitView() {
   const reactFlowInstance = useReactFlow();
   useEffect(() => {
@@ -41,14 +42,18 @@ export default function App() {
     [setEdges]
   );
 
+  // Programmatically generate id of the new nodes based on the current node list
   function addNode() {
     setNodes((n) => {
+      const newId = String(Number(n[n.length - 1].id) + 1);
+      const newYPosition = n[n.length - 1].position.y + 100;
+      console.log(newYPosition);
       return [
         ...n,
         {
-          id: '3',
-          data: { label: 'Third Node' },
-          position: { x: 250, y: 225 },
+          id: newId,
+          data: { label: `Node ${newId}` },
+          position: { x: 250, y: newYPosition },
         },
       ];
     });
@@ -63,7 +68,7 @@ export default function App() {
   function handleKeyDown(e) {
     if (e.key === 's') {
       addNode();
-      addEdge();
+      // addEdge();
     }
   }
 
