@@ -38,18 +38,20 @@ export default function App() {
 
   // Create mode is default on page load. The mode switches to edit when the user adds a node. This allows the user to change the label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
 
-  // Press 'i' to change the label of the node. Press 'Enter' to finish label and go back to creating nodes.
-  // - Press 'i' to show or hide the input field - done
+  // Press 'i' to change the label of the node. Press 'Enter' to finish and go back to creating nodes - done
+  // Press 'i' to show or hide the input field - done
   // Press 'Enter' while input field is active to complete editing - done
-  // Press 'i' to change the label of the latest node
+  // Press 'i' to change the label of the latest node - done
+  // automatically switch to input mode after node creation - done
+  // put the focus on the label of the first node on page load - done
+  // initial keypress of (a/s/d) are not to be recorded when changing the label
 
-  const [nodeLabel, setNodeLabel] = useState('Edit');
+  const [nodeLabel, setNodeLabel] = useState('Untitled');
 
   useEffect(() => {
     setNodes((n) =>
       n.map((node) => {
         const currentNodeId = n[n.length - 1].id;
-        console.log(currentNodeId);
         if (node.id === currentNodeId) {
           node.data = {
             ...node.data,
@@ -74,9 +76,11 @@ export default function App() {
   const reactFlowRef = useRef(null);
   const inputRef = useRef(null);
 
+  // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
   useEffect(() => {
-    reactFlowRef.current.focus();
-  }, [reactFlowRef]);
+    inputRef.current.hidden = false;
+    inputRef.current.focus();
+  }, [inputRef]);
 
   function addNode(key) {
     setNodes((n) => {
@@ -114,20 +118,26 @@ export default function App() {
   function enableInputMode() {
     inputRef.current.hidden = false;
     inputRef.current.focus();
+    // inputRef.current.select();
   }
 
-  function enableCreateMode(e) {
-    if (e.key === 'Enter') {
-      inputRef.current.hidden = true;
-      reactFlowRef.current.focus();
-    }
+  function enableCreateMode() {
+    inputRef.current.hidden = true;
+    reactFlowRef.current.focus();
   }
 
-  function handleKeyDown(e) {
+  function handleInputKeyDown(e) {
+    if (e.key === 'Enter') enableCreateMode();
+  }
+
+  function handleInputChange(e) {
+    setNodeLabel(e.target.value);
+  }
+
+  function handleFlowKeyDown(e) {
     if (e.key === 's' || e.key === 'd' || e.key === 'a') {
       addNode(e.key);
       addEdge();
-    } else if (e.key === 'i') {
       enableInputMode();
     }
   }
@@ -138,7 +148,7 @@ export default function App() {
         <ReactFlow
           id='flow'
           ref={reactFlowRef}
-          onKeyDown={handleKeyDown}
+          onKeyDown={handleFlowKeyDown}
           tabIndex={1}
           nodes={nodes}
           edges={edges}
@@ -155,8 +165,8 @@ export default function App() {
             ref={inputRef}
             type='text'
             value={nodeLabel}
-            onChange={(e) => setNodeLabel(e.target.value)}
-            onKeyDown={enableCreateMode}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
             hidden
           />
         </div>
