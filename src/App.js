@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   applyEdgeChanges,
@@ -28,6 +28,7 @@ function FitView() {
   });
 }
 
+// Default Export
 export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
@@ -41,6 +42,19 @@ export default function App() {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
   );
+
+  const reactFlowRef = useRef(null);
+
+  useEffect(() => {
+    reactFlowRef.current.focus();
+  });
+
+  // Create nodes using keyboard - done
+  // Edit nodes using keyboard - to do
+
+  // Two modes will probably need to be implemented - create mode and edit mode. Create mode will be used to add nodes - edit mode will be used to edit the label of the current node. It would be great if there is a way which enables both without the need to switch modes - a single mode where the user can create nodes and edit them.
+
+  // Create mode - default:
 
   function addNode(key) {
     if (key === 's' || key === 'd' || key === 'a')
@@ -86,6 +100,7 @@ export default function App() {
       <ReactFlowProvider>
         <ReactFlow
           id='flow'
+          ref={reactFlowRef}
           onKeyDown={handleKeyDown}
           tabIndex={1}
           nodes={nodes}
