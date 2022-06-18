@@ -37,9 +37,10 @@ export default function App() {
   // Create nodes using keyboard - done
   // Edit nodes using keyboard - to do
 
-  // Create mode is default on page load. The mode switches to edit as soon as the user adds a node. This focuses the current node and allows user to change label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
+  // Create mode is default on page load. The mode switches to edit when the user adds a node. This allows the user to change the label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
 
-  // A popup input window can be opened after pressing s and then closed after the user presses Enter
+  // Press 'i' to change the label of the node. Press 'Enter' to finish label and go back to creating nodes.
+  // - Press 'i' to show or hide the input field
 
   const [nodeLabel, setNodeLabel] = useState('Edit');
 
@@ -68,34 +69,34 @@ export default function App() {
   );
 
   const reactFlowRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     reactFlowRef.current.focus();
   }, [reactFlowRef]);
 
   function addNode(key) {
-    if (key === 's' || key === 'd' || key === 'a')
-      setNodes((n) => {
-        const newId = String(Number(n[n.length - 1].id) + 1);
-        const newYPosition = n[n.length - 1].position.y + 100;
-        const oldXPosition = n[n.length - 1].position.x;
-        let newXPosition = null;
-        if (key === 's') {
-          newXPosition = oldXPosition;
-        } else if (key === 'd') {
-          newXPosition = oldXPosition + 150;
-        } else if (key === 'a') {
-          newXPosition = oldXPosition - 150;
-        }
-        return [
-          ...n,
-          {
-            id: newId,
-            data: { label: `Node ${newId}` },
-            position: { x: newXPosition, y: newYPosition },
-          },
-        ];
-      });
+    setNodes((n) => {
+      const newId = String(Number(n[n.length - 1].id) + 1);
+      const newYPosition = n[n.length - 1].position.y + 100;
+      const oldXPosition = n[n.length - 1].position.x;
+      let newXPosition = null;
+      if (key === 's') {
+        newXPosition = oldXPosition;
+      } else if (key === 'd') {
+        newXPosition = oldXPosition + 150;
+      } else if (key === 'a') {
+        newXPosition = oldXPosition - 150;
+      }
+      return [
+        ...n,
+        {
+          id: newId,
+          data: { label: `Node ${newId}` },
+          position: { x: newXPosition, y: newYPosition },
+        },
+      ];
+    });
   }
 
   function addEdge() {
@@ -107,9 +108,25 @@ export default function App() {
     });
   }
 
+  function enableInputMode() {
+    inputRef.current.hidden = false;
+    inputRef.current.focus();
+  }
+
+  // function enableCreateMode() {
+  //   inputRef.current.hidden = true;
+  // }
+
   function handleKeyDown(e) {
-    addNode(e.key);
-    addEdge();
+    if (e.key === 's' || e.key === 'd' || e.key === 'a') {
+      addNode(e.key);
+      addEdge();
+    } else if (e.key === 'i') {
+      enableInputMode();
+    }
+    // else if (e.key === 'Escape') {
+    //   enableCreateMode();
+    // }
   }
 
   return (
@@ -132,9 +149,12 @@ export default function App() {
         <div id='input-cont'>
           <input
             id='input'
+            ref={inputRef}
             type='text'
             value={nodeLabel}
             onChange={(e) => setNodeLabel(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && reactFlowRef.current.focus()}
+            hidden
           />
         </div>
       </ReactFlowProvider>
