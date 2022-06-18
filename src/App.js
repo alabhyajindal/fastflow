@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   applyEdgeChanges,
@@ -33,6 +33,29 @@ export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
+  // Create nodes using keyboard - done
+  // Edit nodes using keyboard - to do
+
+  // Create mode is default on page load. The mode switches to edit as soon as the user adds a node. This focuses the current node and allows user to change label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
+
+  // A popup input window can be opened after pressing s and then closed after the user presses Enter
+
+  const [nodeLabel, setNodeLabel] = useState('Edit');
+
+  useEffect(() => {
+    setNodes((n) =>
+      n.map((node) => {
+        if (node.id === '1') {
+          node.data = {
+            ...node.data,
+            label: nodeLabel,
+          };
+        }
+        return node;
+      })
+    );
+  }, [nodeLabel, setNodes]);
+
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
@@ -48,13 +71,6 @@ export default function App() {
   useEffect(() => {
     reactFlowRef.current.focus();
   }, [reactFlowRef]);
-
-  // Create nodes using keyboard - done
-  // Edit nodes using keyboard - to do
-
-  // Create mode is default on page load. The mode switches to edit as soon as the user adds a node. This focuses the current node and allows user to change label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
-
-  // A popup input window can be opened after pressing s and then closed after the user presses Enter
 
   function addNode(key) {
     if (key === 's' || key === 'd' || key === 'a')
@@ -111,7 +127,12 @@ export default function App() {
         />
         <FitView />
         <div id='input-cont'>
-          <input id='input' type='text' />
+          <input
+            id='input'
+            type='text'
+            value={nodeLabel}
+            onChange={(e) => setNodeLabel(e.target.value)}
+          />
         </div>
       </ReactFlowProvider>
     </div>
