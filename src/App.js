@@ -20,37 +20,37 @@ const initialNodes = [
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
-function Controls() {
-  const reactFlowInstance = useReactFlow();
+// function Controls() {
+//   const reactFlowInstance = useReactFlow();
 
-  function handleKeyDown(e) {
-    if (e.key === 's') {
-      reactFlowInstance.addNodes({
-        id: '3',
-        width: 150,
-        height: 38,
-        data: { label: 'Third Node' },
-        position: { x: 250, y: 225 },
-      });
-      // console.log(reactFlowInstance.getNodes());
-      reactFlowInstance.addEdges({ id: 'e2-3', source: '2', target: '3' });
-      reactFlowInstance.fitView();
-    }
-    if (e.key === 'q') {
-      console.log(reactFlowInstance.getNodes());
-      reactFlowInstance.fitView();
-    }
-  }
+//   function handleKeyDown(e) {
+//     if (e.key === 's') {
+//       reactFlowInstance.addNodes({
+//         id: '3',
+//         width: 150,
+//         height: 38,
+//         data: { label: 'Third Node' },
+//         position: { x: 250, y: 225 },
+//       });
+//       console.log(reactFlowInstance.getNodes());
+//       reactFlowInstance.addEdges({ id: 'e2-3', source: '2', target: '3' });
+//       reactFlowInstance.fitView();
+//     }
+//     if (e.key === 'q') {
+//       console.log(reactFlowInstance.getNodes());
+//       reactFlowInstance.fitView();
+//     }
+//   }
 
-  return (
-    <div onKeyDown={handleKeyDown} tabIndex={0}>
-      <p>
-        Fast Flow allows you to create flow charts at the speed of your thought.
-        Click here to get started.
-      </p>
-    </div>
-  );
-}
+//   return (
+//     <div onKeyDown={handleKeyDown} tabIndex={0}>
+//       <p>
+//         Fast Flow allows you to create flow charts at the speed of your thought.
+//         Click here to get started.
+//       </p>
+//     </div>
+//   );
+// }
 
 export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
@@ -66,9 +66,39 @@ export default function App() {
     [setEdges]
   );
 
+  const reactFlowInstance = useReactFlow();
+
+  function addNode() {
+    setNodes((n) => {
+      return [
+        ...n,
+        {
+          id: '3',
+          data: { label: 'Third Node' },
+          position: { x: 250, y: 225 },
+        },
+      ];
+    });
+  }
+
+  function addEdge() {
+    setEdges((e) => {
+      return [...e, { id: 'e2-3', source: '2', target: '3' }];
+    });
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 's') {
+      addNode();
+      addEdge();
+    }
+  }
+
   return (
     <div id='app'>
-      <h1>Welcome to Fast Flow</h1>
+      <h1 onKeyDown={handleKeyDown} tabIndex={1}>
+        Welcome to Fast Flow
+      </h1>
       <ReactFlowProvider>
         <ReactFlow
           id='flow'
@@ -78,7 +108,7 @@ export default function App() {
           onEdgesChange={onEdgesChange}
           fitView
         />
-        <Controls />
+        {/* <Controls /> */}
       </ReactFlowProvider>
     </div>
   );
