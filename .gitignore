@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 obj.txt
+foo.js

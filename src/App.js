@@ -15,7 +15,6 @@ const initialNodes = [
     data: { label: `Node 1` },
     position: { x: 250, y: 25 },
   },
-  { id: '2', data: { label: 'Node 2' }, position: { x: 250, y: 125 } },
 ];
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
@@ -53,9 +52,9 @@ export default function App() {
   // Create nodes using keyboard - done
   // Edit nodes using keyboard - to do
 
-  // Two modes will probably need to be implemented - create mode and edit mode. Create mode will be used to add nodes - edit mode will be used to edit the label of the current node. It would be great if there is a way which enables both without the need to switch modes - a single mode where the user can create nodes and edit them.
+  // Create mode is default on page load. The mode switches to edit as soon as the user adds a node. This focuses the current node and allows user to change label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
 
-  // Create mode - default:
+  // A popup input window can be opened after pressing s and then closed after the user presses Enter
 
   function addNode(key) {
     if (key === 's' || key === 'd' || key === 'a')
@@ -111,6 +110,9 @@ export default function App() {
           fitView
         />
         <FitView />
+        <div id='input-cont'>
+          <input id='input' type='text' />
+        </div>
       </ReactFlowProvider>
     </div>
   );
