@@ -8,9 +8,9 @@
 }
 
 #app {
-  margin: 3rem;
-  width: 500px;
-  height: 500px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #flow {

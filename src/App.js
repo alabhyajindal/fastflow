@@ -83,12 +83,11 @@ export default function App() {
 
   return (
     <div id='app'>
-      <h1 onKeyDown={handleKeyDown} tabIndex={1}>
-        Welcome to Fast Flow
-      </h1>
       <ReactFlowProvider>
         <ReactFlow
           id='flow'
+          onKeyDown={handleKeyDown}
+          tabIndex={1}
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
