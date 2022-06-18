@@ -25,6 +25,7 @@ function FitView() {
   const reactFlowInstance = useReactFlow();
   useEffect(() => {
     reactFlowInstance.fitView();
+    console.log('fitView ran');
   });
 }
 
@@ -47,7 +48,7 @@ export default function App() {
 
   useEffect(() => {
     reactFlowRef.current.focus();
-  });
+  }, [reactFlowRef]);
 
   // Create nodes using keyboard - done
   // Edit nodes using keyboard - to do
