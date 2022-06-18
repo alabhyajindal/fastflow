@@ -1,12 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   applyEdgeChanges,
   applyNodeChanges,
   useNodesState,
   useEdgesState,
+  useReactFlow,
 } from 'react-flow-renderer';
-import User from './User';
 
 const initialNodes = [
   {
@@ -19,6 +19,38 @@ const initialNodes = [
 ];
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+
+function Controls() {
+  const reactFlowInstance = useReactFlow();
+
+  function handleKeyDown(e) {
+    if (e.key === 's') {
+      reactFlowInstance.addNodes({
+        id: '3',
+        width: 150,
+        height: 38,
+        data: { label: 'Third Node' },
+        position: { x: 250, y: 225 },
+      });
+      // console.log(reactFlowInstance.getNodes());
+      reactFlowInstance.addEdges({ id: 'e2-3', source: '2', target: '3' });
+      reactFlowInstance.fitView();
+    }
+    if (e.key === 'q') {
+      console.log(reactFlowInstance.getNodes());
+      reactFlowInstance.fitView();
+    }
+  }
+
+  return (
+    <div onKeyDown={handleKeyDown} tabIndex={0}>
+      <p>
+        Fast Flow allows you to create flow charts at the speed of your thought.
+        Click here to get started.
+      </p>
+    </div>
+  );
+}
 
 export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
@@ -34,16 +66,6 @@ export default function App() {
     [setEdges]
   );
 
-  window.addEventListener('keydown', (e) => {
-    handleKeyDown(e.key);
-  });
-
-  function handleKeyDown(key) {
-    if (key === 's') {
-      // add a node below and connect it with previous node
-    }
-  }
-
   return (
     <div id='app'>
       <h1>Welcome to Fast Flow</h1>
@@ -56,7 +78,7 @@ export default function App() {
           onEdgesChange={onEdgesChange}
           fitView
         />
-        <User />
+        <Controls />
       </ReactFlowProvider>
     </div>
   );
