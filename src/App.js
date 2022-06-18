@@ -42,19 +42,27 @@ export default function App() {
     [setEdges]
   );
 
-  function addNode() {
-    setNodes((n) => {
-      const newId = String(Number(n[n.length - 1].id) + 1);
-      const newYPosition = n[n.length - 1].position.y + 100;
-      return [
-        ...n,
-        {
-          id: newId,
-          data: { label: `Node ${newId}` },
-          position: { x: 250, y: newYPosition },
-        },
-      ];
-    });
+  function addNode(key) {
+    // We want to determine the position of X based on the current node which is selected (or the latest node). When we press d on a node which already on the right side - then the new node should be created on the further right - not below it. Similarly, when we press s on a node which is to the side then this newly created node should be created at the bottom of the current node - not to the center.
+    let newXPosition = null;
+    if (key === 's') {
+      newXPosition = 250;
+    } else if (key === 'd') {
+      newXPosition = 400;
+    }
+    newXPosition &&
+      setNodes((n) => {
+        const newId = String(Number(n[n.length - 1].id) + 1);
+        const newYPosition = n[n.length - 1].position.y + 100;
+        return [
+          ...n,
+          {
+            id: newId,
+            data: { label: `Node ${newId}` },
+            position: { x: newXPosition, y: newYPosition },
+          },
+        ];
+      });
   }
 
   function addEdge() {
@@ -67,10 +75,9 @@ export default function App() {
   }
 
   function handleKeyDown(e) {
-    if (e.key === 's') {
-      addNode();
-      addEdge();
-    }
+    // Pass e.key to addNode. addNode then determines the position of the newly created node based on e.key using if statements
+    addNode(e.key);
+    addEdge();
   }
 
   return (
