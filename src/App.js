@@ -6,6 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   useReactFlow,
+  Background,
 } from 'react-flow-renderer';
 
 const initialNodes = [
@@ -124,7 +125,9 @@ export default function App() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           fitView
-        />
+        >
+          <Background />
+        </ReactFlow>
         <FitView />
         <div id='input-cont'>
           <input
