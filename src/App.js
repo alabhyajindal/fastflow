@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   applyEdgeChanges,
@@ -43,17 +43,19 @@ export default function App() {
   );
 
   function addNode(key) {
-    // We want to determine the position of X based on the current node which is selected (or the latest node). When we press d on a node which already on the right side - then the new node should be created on the further right - not below it. Similarly, when we press s on a node which is to the side then this newly created node should be created at the bottom of the current node - not to the center.
-    let newXPosition = null;
-    if (key === 's') {
-      newXPosition = 250;
-    } else if (key === 'd') {
-      newXPosition = 400;
-    }
-    newXPosition &&
+    if (key === 's' || key === 'd' || key === 'a')
       setNodes((n) => {
         const newId = String(Number(n[n.length - 1].id) + 1);
         const newYPosition = n[n.length - 1].position.y + 100;
+        const oldXPosition = n[n.length - 1].position.x;
+        let newXPosition = null;
+        if (key === 's') {
+          newXPosition = oldXPosition;
+        } else if (key === 'd') {
+          newXPosition = oldXPosition + 150;
+        } else if (key === 'a') {
+          newXPosition = oldXPosition - 150;
+        }
         return [
           ...n,
           {
@@ -75,7 +77,6 @@ export default function App() {
   }
 
   function handleKeyDown(e) {
-    // Pass e.key to addNode. addNode then determines the position of the newly created node based on e.key using if statements
     addNode(e.key);
     addEdge();
   }
