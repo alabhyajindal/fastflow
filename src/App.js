@@ -44,9 +44,10 @@ export default function App() {
   // Press 'i' to change the label of the latest node - done
   // automatically switch to input mode after node creation - done
   // put the focus on the label of the first node on page load - done
-  // initial keypress of (a/s/d) are not to be recorded when changing the label
+  // initial keydonw of (a/s/d) are recorded when changing the label - done
 
   const [nodeLabel, setNodeLabel] = useState('Untitled');
+  const [justSwitched, setJustSwitched] = useState(false);
 
   useEffect(() => {
     setNodes((n) =>
@@ -80,6 +81,7 @@ export default function App() {
   useEffect(() => {
     inputRef.current.hidden = false;
     inputRef.current.focus();
+    inputRef.current.select();
   }, [inputRef]);
 
   function addNode(key) {
@@ -116,9 +118,13 @@ export default function App() {
   }
 
   function enableInputMode() {
+    setJustSwitched(true);
     inputRef.current.hidden = false;
     inputRef.current.focus();
-    // inputRef.current.select();
+    setNodeLabel('');
+    setTimeout(() => {
+      setJustSwitched(false);
+    }, 50);
   }
 
   function enableCreateMode() {
@@ -132,6 +138,14 @@ export default function App() {
 
   function handleInputChange(e) {
     setNodeLabel(e.target.value);
+    if (
+      (e.target.value === 'a' ||
+        e.target.value === 's' ||
+        e.target.value === 'd') &&
+      justSwitched
+    ) {
+      setNodeLabel('');
+    }
   }
 
   function handleFlowKeyDown(e) {
