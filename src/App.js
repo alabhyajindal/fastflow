@@ -42,12 +42,10 @@ export default function App() {
     [setEdges]
   );
 
-  // Programmatically generate id of the new nodes based on the current node list
   function addNode() {
     setNodes((n) => {
       const newId = String(Number(n[n.length - 1].id) + 1);
       const newYPosition = n[n.length - 1].position.y + 100;
-      console.log(newYPosition);
       return [
         ...n,
         {
@@ -61,14 +59,17 @@ export default function App() {
 
   function addEdge() {
     setEdges((e) => {
-      return [...e, { id: 'e2-3', source: '2', target: '3' }];
+      const newSource = String(Number(e[e.length - 1].source) + 1);
+      const newTarget = String(Number(e[e.length - 1].target) + 1);
+      const newId = `e${newSource}-${newTarget}`;
+      return [...e, { id: newId, source: newSource, target: newTarget }];
     });
   }
 
   function handleKeyDown(e) {
     if (e.key === 's') {
       addNode();
-      // addEdge();
+      addEdge();
     }
   }
 
