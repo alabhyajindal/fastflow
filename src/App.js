@@ -1,32 +1,38 @@
-import { useEffect, useState } from 'react';
-import create from 'zustand';
+import { useCallback } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
-  useReactFlow,
+  applyEdgeChanges,
+  applyNodeChanges,
+  useNodesState,
+  useEdgesState,
 } from 'react-flow-renderer';
+import User from './User';
 
 const initialNodes = [
   {
     id: '1',
     type: 'input',
-    data: { label: 'Input Node' },
+    data: { label: 'First Node' },
     position: { x: 250, y: 25 },
   },
-  { id: '2', data: { label: 'Default Node' }, position: { x: 250, y: 125 } },
+  { id: '2', data: { label: 'Second Node' }, position: { x: 250, y: 125 } },
 ];
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
 export default function App() {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useNodesState(initialNodes);
+  const [edges, setEdges] = useEdgesState(initialEdges);
 
-  const store = useStoreApi();
-  const reactFlowInstance = useReactFlow();
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
 
-  useEffect(() => {
-    console.log(reactFlowInstance);
-  }, []);
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
 
   window.addEventListener('keydown', (e) => {
     handleKeyDown(e.key);
@@ -42,27 +48,16 @@ export default function App() {
     <div id='app'>
       <h1>Welcome to Fast Flow</h1>
       <ReactFlowProvider>
-        <ReactFlow id='flow' nodes={nodes} edges={edges} fitView />
+        <ReactFlow
+          id='flow'
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          fitView
+        />
+        <User />
       </ReactFlowProvider>
     </div>
   );
 }
-
-// function createNode() {
-//   setNodes((n) => {
-//     return [
-//       ...n,
-//       {
-//         id: '3',
-//         data: { label: 'Third Node' },
-//         position: { x: 250, y: 225 },
-//       },
-//     ];
-//   });
-// }
-
-// function createEdge() {
-//   setEdges((e) => {
-//     return [...e, { id: 'e2-3', source: '2', target: '3' }];
-//   });
-// }
