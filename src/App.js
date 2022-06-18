@@ -20,37 +20,12 @@ const initialNodes = [
 
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
-// function Controls() {
-//   const reactFlowInstance = useReactFlow();
-
-//   function handleKeyDown(e) {
-//     if (e.key === 's') {
-//       reactFlowInstance.addNodes({
-//         id: '3',
-//         width: 150,
-//         height: 38,
-//         data: { label: 'Third Node' },
-//         position: { x: 250, y: 225 },
-//       });
-//       console.log(reactFlowInstance.getNodes());
-//       reactFlowInstance.addEdges({ id: 'e2-3', source: '2', target: '3' });
-//       reactFlowInstance.fitView();
-//     }
-//     if (e.key === 'q') {
-//       console.log(reactFlowInstance.getNodes());
-//       reactFlowInstance.fitView();
-//     }
-//   }
-
-//   return (
-//     <div onKeyDown={handleKeyDown} tabIndex={0}>
-//       <p>
-//         Fast Flow allows you to create flow charts at the speed of your thought.
-//         Click here to get started.
-//       </p>
-//     </div>
-//   );
-// }
+function FitView() {
+  const reactFlowInstance = useReactFlow();
+  useEffect(() => {
+    reactFlowInstance.fitView();
+  });
+}
 
 export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
@@ -65,8 +40,6 @@ export default function App() {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
   );
-
-  const reactFlowInstance = useReactFlow();
 
   function addNode() {
     setNodes((n) => {
@@ -108,7 +81,7 @@ export default function App() {
           onEdgesChange={onEdgesChange}
           fitView
         />
-        {/* <Controls /> */}
+        <FitView />
       </ReactFlowProvider>
     </div>
   );
