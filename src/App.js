@@ -14,6 +14,7 @@ const initialNodes = [
     id: '1',
     data: { label: `Node 1` },
     position: { x: 250, y: 25 },
+    style: { background: '#D6D5E6', color: '#333' },
   },
 ];
 
@@ -33,19 +34,6 @@ function FitView() {
 export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
-
-  // Create nodes using keyboard - done
-  // Edit nodes using keyboard - to do
-
-  // Create mode is default on page load. The mode switches to edit when the user adds a node. This allows the user to change the label of the current node. The user can now press Enter to switch back to create mode and press a/s/d to create a new node.
-
-  // Press 'i' to change the label of the node. Press 'Enter' to finish and go back to creating nodes - done
-  // Press 'i' to show or hide the input field - done
-  // Press 'Enter' while input field is active to complete editing - done
-  // Press 'i' to change the label of the latest node - done
-  // automatically switch to input mode after node creation - done
-  // put the focus on the label of the first node on page load - done
-  // initial keydonw of (a/s/d) are recorded when changing the label - done
 
   const [nodeLabel, setNodeLabel] = useState('Untitled');
   const [justSwitched, setJustSwitched] = useState(false);
