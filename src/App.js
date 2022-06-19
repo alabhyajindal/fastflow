@@ -84,6 +84,7 @@ export default function App() {
     inputRef.current.select();
   }, [inputRef]);
 
+  // Determine node's position based on the key and add it to the state
   function addNode(key) {
     setNodes((n) => {
       const newId = String(Number(n[n.length - 1].id) + 1);
@@ -94,6 +95,9 @@ export default function App() {
       if (key === 's') {
         newXPosition = oldXPosition;
         newYPosition = oldYPosition + 100;
+      } else if (key === 'w') {
+        newXPosition = oldXPosition;
+        newYPosition = oldYPosition - 100;
       } else if (key === 'd') {
         newXPosition = oldXPosition + 200;
         newYPosition = oldYPosition;
@@ -142,8 +146,10 @@ export default function App() {
 
   function handleInputChange(e) {
     setNodeLabel(e.target.value);
+    // Used to set the input value to '' right after user creates a new node
     if (
-      (e.target.value === 'a' ||
+      (e.target.value === 'w' ||
+        e.target.value === 'a' ||
         e.target.value === 's' ||
         e.target.value === 'd') &&
       justSwitched
@@ -152,8 +158,9 @@ export default function App() {
     }
   }
 
+  // Used to create a node and switch to input mode immediately
   function handleFlowKeyDown(e) {
-    if (e.key === 's' || e.key === 'd' || e.key === 'a') {
+    if (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') {
       addNode(e.key);
       addEdge();
       enableInputMode();
