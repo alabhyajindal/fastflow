@@ -195,7 +195,7 @@ export default function App() {
     ) {
       const selectedNodeId = nodes[nodes.length - 1].id;
       const selectedNodeIdStyle = {
-        background: '#abaab8',
+        background: '#c1c0cf',
         color: '#333',
         border: '1.5px solid #333',
       };
@@ -204,7 +204,7 @@ export default function App() {
           if (node.id === selectedNodeId) {
             return { ...node, style: selectedNodeIdStyle };
           }
-          return node;
+          return { ...node, style: nodeStyle };
         })
       );
     }
