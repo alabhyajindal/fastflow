@@ -98,13 +98,13 @@ export default function App() {
 
   // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
   useEffect(() => {
-    if (mode === 'Create') {
-      inputRef.current.hidden = false;
-      inputRef.current.focus();
-      inputRef.current.select();
-    } else {
-      focusOnReactFlow();
-    }
+    focusOnReactFlow();
+    // if (mode === 'Create') {
+    //   inputRef.current.hidden = false;
+    //   inputRef.current.focus();
+    //   inputRef.current.select();
+    // } else {
+    // }
   }, [mode, inputRef, reactFlowRef]);
 
   const onNodesChange = useCallback(
@@ -120,7 +120,7 @@ export default function App() {
   // Determine node's position based on the key and add it to the state
   function addNode(key) {
     setNodes((n) => {
-      const newId = String(Number(n[n.length - 1].id) + 1);
+      let newId = String(Number(n[n.length - 1].id) + 1);
       const oldXPosition = n[n.length - 1].position.x;
       const oldYPosition = n[n.length - 1].position.y;
       let newXPosition = null;
@@ -195,7 +195,6 @@ export default function App() {
     }
   }
 
-  // Used to create a node and switch to input mode immediately
   function handleFlowKeyDown(e) {
     if (
       (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') &&
@@ -205,8 +204,12 @@ export default function App() {
       addEdge();
       focusOnInput();
     } else if (e.key === 'Escape') {
+      resetNodeColors();
+      setToggleCount(0);
+      focusOnReactFlow();
       mode === 'Create' ? setMode('Edit') : setMode('Create');
-    } else if (e.key === 't' && mode === 'Edit') {
+    } else if (e.key === 'Tab' && mode === 'Edit') {
+      e.preventDefault();
       toggleNodes();
     } else if (e.key === 'Enter' && mode === 'Edit') {
       focusOnInput();
@@ -238,7 +241,15 @@ export default function App() {
     setIsActive(false);
   }
 
-  // Complete Edit Mode
+  function resetNodeColors() {
+    setNodes((n) =>
+      n.map((node) => {
+        return { ...node, style: nodeStyle };
+      })
+    );
+  }
+
+  // Complete Edit Mode - done
   // Wire up the Edit and Create Mode
   // Test the app
   // Deploy to Vercel
