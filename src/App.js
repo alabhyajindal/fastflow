@@ -9,12 +9,14 @@ import ReactFlow, {
   Background,
 } from 'react-flow-renderer';
 
+const nodeStyle = { background: '#d6d5e6', color: '#333' };
+
 const initialNodes = [
   {
     id: '1',
     data: { label: `Node 1` },
     position: { x: 250, y: 25 },
-    style: { background: '#D6D5E6', color: '#333' },
+    style: nodeStyle,
   },
 ];
 
@@ -100,6 +102,7 @@ export default function App() {
           id: newId,
           data: { label: `` },
           position: { x: newXPosition, y: newYPosition },
+          style: nodeStyle,
         },
       ];
     });
