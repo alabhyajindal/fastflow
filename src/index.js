@@ -10,7 +10,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<Guide />}></Route>
-      <Route path='/create' element={<App />}></Route>
+      <Route path='/flow' element={<App />}></Route>
     </Routes>
   </BrowserRouter>
 );

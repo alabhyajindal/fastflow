@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function Guide() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      document.getElementById('link-to-create').click();
+      document.getElementById('link-to-flow').click();
     }
   });
 
@@ -11,8 +11,7 @@ export default function Guide() {
     <div id='guide-main'>
       <h1>Welcome to Fast Flow</h1>
       <p>
-        Fast Flow is a fast, new way to create flow charts using only your
-        keyboard.
+        Fast Flow is a new way to create flow charts using only your keyboard.
       </p>
       <p>
         Fast Flow has two modes - the default <em>Create Mode</em> and an{' '}
@@ -62,8 +61,8 @@ export default function Guide() {
       <h3>
         Press <strong>Enter</strong> to begin a Flow
       </h3>
-      <Link id='link-to-create' to='/create'>
-        Create
+      <Link id='link-to-flow' to='/flow'>
+        Flow
       </Link>
     </div>
   );

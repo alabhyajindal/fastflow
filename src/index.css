@@ -58,6 +58,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+  color: #475569;
+}
+
+#guide-main h1,
+h3 {
+  color: #1e293b;
 }
 
 #guide-main ul {
@@ -68,6 +74,6 @@ body {
   font-weight: 400;
 }
 
-#link-to-create {
+#link-to-flow {
   opacity: 0;
 }
