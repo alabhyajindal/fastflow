@@ -18,10 +18,30 @@ const initialNodes = [
     position: { x: 250, y: 25 },
     style: nodeStyle,
   },
+  {
+    id: '2',
+    data: { label: `Node 2` },
+    position: { x: 250, y: 125 },
+    style: nodeStyle,
+  },
+  {
+    id: '3',
+    data: { label: `Node 3` },
+    position: { x: 450, y: 125 },
+    style: nodeStyle,
+  },
+  {
+    id: '4',
+    data: { label: `Node 4` },
+    position: { x: 450, y: 225 },
+    style: nodeStyle,
+  },
 ];
 
 const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', type: 'smoothstep' },
+  { id: 'e2-3', source: '2', target: '3', type: 'smoothstep' },
+  { id: 'e3-4', source: '3', target: '4', type: 'smoothstep' },
 ];
 
 // fitView method is extracted to a seperate component as reactFlowInstance can be accessed only by child elements of ReactFlowProvider.
@@ -39,7 +59,7 @@ export default function App() {
 
   const [nodeLabel, setNodeLabel] = useState('Untitled');
   const [justSwitched, setJustSwitched] = useState(false);
-  const [mode, setMode] = useState('Create');
+  const [mode, setMode] = useState('Edit');
 
   const reactFlowRef = useRef(null);
   const inputRef = useRef(null);
@@ -61,10 +81,14 @@ export default function App() {
 
   // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
   useEffect(() => {
-    inputRef.current.hidden = false;
-    inputRef.current.focus();
-    inputRef.current.select();
-  }, [inputRef]);
+    if (mode === 'Create') {
+      inputRef.current.hidden = false;
+      inputRef.current.focus();
+      inputRef.current.select();
+    } else {
+      enableCreateMode(); // change the function name
+    }
+  }, [mode, inputRef, reactFlowRef]);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -165,11 +189,31 @@ export default function App() {
       enableInputMode();
     } else if (e.key === 'Escape') {
       mode === 'Create' ? setMode('Edit') : setMode('Create');
-    } else if (e.key === 'Enter' && mode === 'Edit') {
-      // console.log(nodes[nodes.length - 1]);
-      enableInputMode();
+    } else if (
+      (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') &&
+      mode === 'Edit'
+    ) {
+      const selectedNodeId = nodes[nodes.length - 1].id;
+      const selectedNodeIdStyle = {
+        background: '#abaab8',
+        color: '#333',
+        border: '1.5px solid #333',
+      };
+      setNodes((n) =>
+        n.map((node) => {
+          if (node.id === selectedNodeId) {
+            return { ...node, style: selectedNodeIdStyle };
+          }
+          return node;
+        })
+      );
     }
+    // else if e.key === 'w' etc. && mode === 'Edit' then perform navigation based on the key pressed
+    // select a node based on the id
+    // enableInputMode (if e.key === 'Enter') reference for later
   }
+
+  // function navigateNodes() {}
 
   return (
     <div id='app'>
@@ -211,8 +255,8 @@ export default function App() {
 // 3. Add the label of the newly created node
 // 4. Go back to 2
 
-// Right now the user has no way of editing the label once they press 'Enter'. I could add a feature which allows users to press 'i' - this selects the latest node, the node which they pressed enter on and allows them to edit it back again. But I think this is not going to provide the most benefit. The user can be careful when the press 'Enter'.
+// Right now the user has no way of editing the label once they press 'Enter'. I could add a feature which allows users to press 'i' - this selects the latest node, the node which they pressed enter on and allows them to edit it back again. But I think this is not going to provide the most benefit. The user can be careful when the press 'Enter'. - this is taken care of by the Edit Mode.
 
 // Adding a feature which allows users to navigate the nodes once they have creaetd it fully and edit it will be the most benefecial. This means creating a Navigation mode. Once the user is happy with the structure of the flowchart - they can enter Navigation mode using the 'Escape' key. This allows users to navigate the board using the familiar keys which they used for board creation. The selected node's boundry will get highlighted as the user navigates. Once the user reaches a node where they want to make a change - they can press enter. This will popup the Input field allowing users to edit the label. User presses Enter and the label is completed. The focus goes back to node where the correction was just made, indicating that the user can correct more nodes if needed. Press 'Escape' to go back to Create mode to add nodes.
 
-// Small p tag in the bottom left corner indicating which mode the user is currently in would be great.
+// Small p tag in the bottom left corner indicating which mode the user is currently in would be great. - done
