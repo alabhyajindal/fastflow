@@ -12,16 +12,56 @@ export default function Guide() {
       <h1>Welcome to Fast Flow</h1>
       <p>
         Fast Flow is a fast, new way to create flow charts using only your
-        keyboard. This will allow you to create flow charts at the speed of your
-        thought.
+        keyboard.
       </p>
       <p>
         Fast Flow has two modes - the default <em>Create Mode</em> and an{' '}
         <em>Edit Mode</em>.
       </p>
       <p>
-        Press <strong>Enter</strong> to begin creating a Flow
+        You will spend most of your time in the Create Mode. This allows to
+        create nodes and add labels to them. Following are the controls:
       </p>
+      <ul>
+        <li>
+          <strong>s</strong> - Add a box below
+        </li>
+        <li>
+          <strong>w</strong> - Add a box above
+        </li>
+        <li>
+          <strong>a</strong> - Add a box to the left
+        </li>
+        <li>
+          <strong>d</strong> - Add a box to the right
+        </li>
+      </ul>
+      <p>
+        Create Mode automatically selects all newly created box for you to enter
+        the label. Type the label name, and press <strong>Enter</strong> when
+        you are done.
+      </p>
+
+      <p>
+        You can switch to the Edit Mode by pressing the <strong>Esc</strong>{' '}
+        key. Following are the controls for the Edit Mode:
+      </p>
+      <ul>
+        <li>
+          <strong>Tab</strong> - Toggle between the boxes
+        </li>
+        <li>
+          <strong>Enter</strong> - Select the label of the box
+        </li>
+      </ul>
+      <p>
+        Once the box is selected, you can press <strong>Enter</strong> to
+        confirm. Press <strong>Esc</strong> to switch back to Create Mode.
+      </p>
+      <br />
+      <h3>
+        Press <strong>Enter</strong> to begin a Flow
+      </h3>
       <Link id='link-to-create' to='/create'>
         Create
       </Link>

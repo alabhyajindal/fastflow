@@ -60,6 +60,14 @@ body {
   gap: 0.7rem;
 }
 
+#guide-main ul {
+  /* list-style-type: square; */
+}
+
+#guide-main h3 {
+  font-weight: 400;
+}
+
 #link-to-create {
   opacity: 0;
 }
