@@ -38,6 +38,8 @@
   top: 0px;
   left: 5px;
   z-index: 4;
+  color: #333;
+  font-weight: 500;
 }
 
 .react-flow {

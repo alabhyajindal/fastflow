@@ -156,12 +156,18 @@ export default function App() {
 
   // Used to create a node and switch to input mode immediately
   function handleFlowKeyDown(e) {
-    if (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') {
+    if (
+      (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') &&
+      mode === 'Create'
+    ) {
       addNode(e.key);
       addEdge();
       enableInputMode();
     } else if (e.key === 'Escape') {
       mode === 'Create' ? setMode('Edit') : setMode('Create');
+    } else if (e.key === 'Enter' && mode === 'Edit') {
+      // console.log(nodes[nodes.length - 1]);
+      enableInputMode();
     }
   }
 
