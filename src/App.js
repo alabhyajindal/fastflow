@@ -54,24 +54,47 @@ export default function App() {
   const [justSwitched, setJustSwitched] = useState(false);
   const [mode, setMode] = useState('Edit');
   const [toggleCount, setToggleCount] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
   const reactFlowRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
-    setNodes((n) =>
-      n.map((node) => {
-        const currentNodeId = n[n.length - 1].id;
-        if (node.id === currentNodeId) {
-          node.data = {
-            ...node.data,
-            label: nodeLabel,
-          };
-        }
-        return node;
-      })
-    );
+    if (mode === 'Create') {
+      setNodes((n) =>
+        n.map((node) => {
+          const currentNodeId = n[n.length - 1].id;
+
+          if (node.id === currentNodeId) {
+            node.data = {
+              ...node.data,
+              label: nodeLabel,
+            };
+          }
+          return node;
+        })
+      );
+    }
   }, [nodeLabel, setNodes]);
+
+  useEffect(() => {
+    if (mode === 'Edit' && isActive) {
+      setNodes((n) =>
+        n.map((node) => {
+          const currentNodeId = node.style.background === '#94a3b8' && node.id;
+          // This is working. But it is changing the label of the other nodes also when toggleNodes is run.
+
+          if (node.id === currentNodeId) {
+            node.data = {
+              ...node.data,
+              label: nodeLabel,
+            };
+          }
+          return node;
+        })
+      );
+    }
+  }, [nodeLabel, toggleCount]);
 
   // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
   useEffect(() => {
@@ -80,7 +103,7 @@ export default function App() {
       inputRef.current.focus();
       inputRef.current.select();
     } else {
-      enableCreateMode(); // change the function name
+      focusOnReactFlow();
     }
   }, [mode, inputRef, reactFlowRef]);
 
@@ -139,7 +162,7 @@ export default function App() {
     });
   }
 
-  function enableInputMode() {
+  function focusOnInput() {
     setJustSwitched(true);
     inputRef.current.hidden = false;
     inputRef.current.focus();
@@ -149,13 +172,13 @@ export default function App() {
     }, 50);
   }
 
-  function enableCreateMode() {
+  function focusOnReactFlow() {
     inputRef.current.hidden = true;
     reactFlowRef.current.focus();
   }
 
   function handleInputKeyDown(e) {
-    if (e.key === 'Enter') enableCreateMode();
+    if (e.key === 'Enter') focusOnReactFlow();
   }
 
   function handleInputChange(e) {
@@ -180,13 +203,15 @@ export default function App() {
     ) {
       addNode(e.key);
       addEdge();
-      enableInputMode();
+      focusOnInput();
     } else if (e.key === 'Escape') {
       mode === 'Create' ? setMode('Edit') : setMode('Create');
     } else if (e.key === 't' && mode === 'Edit') {
       toggleNodes();
+    } else if (e.key === 'Enter' && mode === 'Edit') {
+      focusOnInput();
+      setIsActive(true);
     }
-    // enableInputMode (if e.key === 'Enter') reference for later
   }
 
   function toggleNodes() {
@@ -196,7 +221,7 @@ export default function App() {
 
     const selectedNodeId = nodes[toggleCount].id;
     const selectedNodeIdStyle = {
-      background: '#94a3b8  ',
+      background: '#94a3b8',
       color: '#1e293b',
     };
 
@@ -210,12 +235,13 @@ export default function App() {
     );
 
     if (toggleCount < nodes.length - 1) setToggleCount((t) => t + 1);
+    setIsActive(false);
   }
 
+  // Complete Edit Mode
   // Wire up the Edit and Create Mode
   // Test the app
   // Deploy to Vercel
-  // Create the modal for user onbaording
 
   return (
     <div id='app'>
