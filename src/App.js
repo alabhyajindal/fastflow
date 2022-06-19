@@ -37,7 +37,7 @@ export default function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
-  const [nodeLabel, setNodeLabel] = useState('Untitled');
+  const [nodeLabel, setNodeLabel] = useState('Start Typing');
   const [justSwitched, setJustSwitched] = useState(false);
   const [mode, setMode] = useState('Create');
   const [toggleCount, setToggleCount] = useState(0);

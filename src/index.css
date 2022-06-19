@@ -7,6 +7,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-color: #f1f5f9;
+}
+
 #app {
   width: 100vw;
   height: 100vh;
@@ -22,8 +26,6 @@
   top: 10px;
   right: 10px;
   z-index: 4;
-  /* Opacity of inputfield to 0 (users can see the text they enter on the node) (later, not during development) */
-  /* opacity: 0; */
 }
 
 #input {
@@ -44,4 +46,20 @@
 
 .react-flow {
   background-color: #f1f5f9;
+}
+
+/* Guide */
+
+#guide-main {
+  padding-top: 0.5rem;
+  max-width: 30rem;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+#link-to-create {
+  opacity: 0;
 }
