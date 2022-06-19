@@ -17,7 +17,9 @@ const initialNodes = [
   },
 ];
 
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+const initialEdges = [
+  { id: 'e1-2', source: '1', target: '2', type: 'smoothstep' },
+];
 
 // fitView method is extracted to a seperate component as reactFlowInstance can be accessed only by child elements of ReactFlowProvider.
 function FitView() {
@@ -120,7 +122,10 @@ export default function App() {
       const newSource = String(Number(e[e.length - 1].source) + 1);
       const newTarget = String(Number(e[e.length - 1].target) + 1);
       const newId = `e${newSource}-${newTarget}`;
-      return [...e, { id: newId, source: newSource, target: newTarget }];
+      return [
+        ...e,
+        { id: newId, source: newSource, target: newTarget, type: 'smoothstep' },
+      ];
     });
   }
 
