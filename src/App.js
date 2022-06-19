@@ -39,6 +39,10 @@ export default function App() {
 
   const [nodeLabel, setNodeLabel] = useState('Untitled');
   const [justSwitched, setJustSwitched] = useState(false);
+  const [mode, setMode] = useState('Create');
+
+  const reactFlowRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setNodes((n) =>
@@ -55,6 +59,13 @@ export default function App() {
     );
   }, [nodeLabel, setNodes]);
 
+  // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
+  useEffect(() => {
+    inputRef.current.hidden = false;
+    inputRef.current.focus();
+    inputRef.current.select();
+  }, [inputRef]);
+
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
@@ -64,16 +75,6 @@ export default function App() {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
   );
-
-  const reactFlowRef = useRef(null);
-  const inputRef = useRef(null);
-
-  // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
-  useEffect(() => {
-    inputRef.current.hidden = false;
-    inputRef.current.focus();
-    inputRef.current.select();
-  }, [inputRef]);
 
   // Determine node's position based on the key and add it to the state
   function addNode(key) {
@@ -159,6 +160,8 @@ export default function App() {
       addNode(e.key);
       addEdge();
       enableInputMode();
+    } else if (e.key === 'Escape') {
+      mode === 'Create' ? setMode('Edit') : setMode('Create');
     }
   }
 
@@ -190,7 +193,20 @@ export default function App() {
             hidden
           />
         </div>
+        <p id='mode'>{mode} Mode</p>
       </ReactFlowProvider>
     </div>
   );
 }
+
+// Adding a featute which enables users to go back to a node to edit the text is important. The question is when to insert this mode into the app which allows this. The current flow looks like this:
+// 1. Add the label of the first node
+// 2. Create a node below or to the sides
+// 3. Add the label of the newly created node
+// 4. Go back to 2
+
+// Right now the user has no way of editing the label once they press 'Enter'. I could add a feature which allows users to press 'i' - this selects the latest node, the node which they pressed enter on and allows them to edit it back again. But I think this is not going to provide the most benefit. The user can be careful when the press 'Enter'.
+
+// Adding a feature which allows users to navigate the nodes once they have creaetd it fully and edit it will be the most benefecial. This means creating a Navigation mode. Once the user is happy with the structure of the flowchart - they can enter Navigation mode using the 'Escape' key. This allows users to navigate the board using the familiar keys which they used for board creation. The selected node's boundry will get highlighted as the user navigates. Once the user reaches a node where they want to make a change - they can press enter. This will popup the Input field allowing users to edit the label. User presses Enter and the label is completed. The focus goes back to node where the correction was just made, indicating that the user can correct more nodes if needed. Press 'Escape' to go back to Create mode to add nodes.
+
+// Small p tag in the bottom left corner indicating which mode the user is currently in would be great.
