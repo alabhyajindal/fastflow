@@ -12,7 +12,6 @@ import ReactFlow, {
 const initialNodes = [
   {
     id: '1',
-    type: 'input',
     data: { label: `Node 1` },
     position: { x: 250, y: 25 },
   },
@@ -109,7 +108,7 @@ export default function App() {
         ...n,
         {
           id: newId,
-          data: { label: `Node ${newId}` },
+          data: { label: `` },
           position: { x: newXPosition, y: newYPosition },
         },
       ];
