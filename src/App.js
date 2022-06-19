@@ -193,6 +193,14 @@ export default function App() {
       (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') &&
       mode === 'Edit'
     ) {
+      navigateNodes(e.key);
+    }
+    // select a node based on the id - done
+    // enableInputMode (if e.key === 'Enter') reference for later
+  }
+
+  function navigateNodes(key) {
+    if (key === 'w') {
       const selectedNodeId = nodes[nodes.length - 1].id;
       const selectedNodeIdStyle = {
         background: '#c1c0cf',
@@ -207,13 +215,10 @@ export default function App() {
           return { ...node, style: nodeStyle };
         })
       );
+      edges.forEach((edge) => edge.source === '3' && console.log(edge));
+      // A data structure is needed which allows us to represent the data on the screen and then traverse it (think trees)
     }
-    // else if e.key === 'w' etc. && mode === 'Edit' then perform navigation based on the key pressed
-    // select a node based on the id
-    // enableInputMode (if e.key === 'Enter') reference for later
   }
-
-  // function navigateNodes() {}
 
   return (
     <div id='app'>
