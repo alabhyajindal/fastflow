@@ -87,15 +87,19 @@ export default function App() {
   function addNode(key) {
     setNodes((n) => {
       const newId = String(Number(n[n.length - 1].id) + 1);
-      const newYPosition = n[n.length - 1].position.y + 100;
       const oldXPosition = n[n.length - 1].position.x;
+      const oldYPosition = n[n.length - 1].position.y;
       let newXPosition = null;
+      let newYPosition = null;
       if (key === 's') {
         newXPosition = oldXPosition;
+        newYPosition = oldYPosition + 100;
       } else if (key === 'd') {
-        newXPosition = oldXPosition + 150;
+        newXPosition = oldXPosition + 200;
+        newYPosition = oldYPosition;
       } else if (key === 'a') {
-        newXPosition = oldXPosition - 150;
+        newXPosition = oldXPosition - 200;
+        newYPosition = oldYPosition;
       }
       return [
         ...n,
