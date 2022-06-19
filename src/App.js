@@ -9,7 +9,7 @@ import ReactFlow, {
   Background,
 } from 'react-flow-renderer';
 
-const nodeStyle = { background: '#d6d5e6', color: '#333' };
+const nodeStyle = { background: '#cbd5e1', color: '#1e293b' };
 
 const initialNodes = [
   {
@@ -189,35 +189,28 @@ export default function App() {
       enableInputMode();
     } else if (e.key === 'Escape') {
       mode === 'Create' ? setMode('Edit') : setMode('Create');
-    } else if (
-      (e.key === 'w' || e.key === 'a' || e.key === 's' || e.key === 'd') &&
-      mode === 'Edit'
-    ) {
-      navigateNodes(e.key);
+    } else if (e.key === 't' && mode === 'Edit') {
+      toggleNodes();
     }
-    // select a node based on the id - done
     // enableInputMode (if e.key === 'Enter') reference for later
   }
 
-  function navigateNodes(key) {
-    if (key === 'w') {
-      const selectedNodeId = nodes[nodes.length - 1].id;
-      const selectedNodeIdStyle = {
-        background: '#c1c0cf',
-        color: '#333',
-        border: '1.5px solid #333',
-      };
-      setNodes((n) =>
-        n.map((node) => {
-          if (node.id === selectedNodeId) {
-            return { ...node, style: selectedNodeIdStyle };
-          }
-          return { ...node, style: nodeStyle };
-        })
-      );
-      edges.forEach((edge) => edge.source === '3' && console.log(edge));
-      // A data structure is needed which allows us to represent the data on the screen and then traverse it (think trees)
-    }
+  function toggleNodes() {
+    const selectedNodeId = nodes[nodes.length - 1].id;
+    const selectedNodeIdStyle = {
+      background: '#94a3b8  ',
+      color: '#1e293b',
+      border: '1.5px solid #1e293b',
+    };
+    setNodes((n) =>
+      n.map((node) => {
+        if (node.id === selectedNodeId) {
+          return { ...node, style: selectedNodeIdStyle };
+        }
+        return { ...node, style: nodeStyle };
+      })
+    );
+    // Wire up the Edit and Create Mode. Test it out
   }
 
   return (
