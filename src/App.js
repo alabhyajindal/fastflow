@@ -18,23 +18,10 @@ const initialNodes = [
     position: { x: 250, y: 25 },
     style: nodeStyle,
   },
-  {
-    id: '2',
-    data: { label: `Node 2` },
-    position: { x: 250, y: 125 },
-    style: nodeStyle,
-  },
-  {
-    id: '3',
-    data: { label: `Node 3` },
-    position: { x: 450, y: 125 },
-    style: nodeStyle,
-  },
 ];
 
 const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', type: 'smoothstep' },
-  { id: 'e2-3', source: '2', target: '3', type: 'smoothstep' },
 ];
 
 // fitView method is extracted to a seperate component as reactFlowInstance can be accessed only by child elements of ReactFlowProvider.
@@ -52,7 +39,7 @@ export default function App() {
 
   const [nodeLabel, setNodeLabel] = useState('Untitled');
   const [justSwitched, setJustSwitched] = useState(false);
-  const [mode, setMode] = useState('Edit');
+  const [mode, setMode] = useState('Create');
   const [toggleCount, setToggleCount] = useState(0);
   const [isActive, setIsActive] = useState(false);
 
@@ -99,12 +86,11 @@ export default function App() {
   // Put the focus on the input field when the page loads (enabling user to control the label of the first node)
   useEffect(() => {
     focusOnReactFlow();
-    // if (mode === 'Create') {
-    //   inputRef.current.hidden = false;
-    //   inputRef.current.focus();
-    //   inputRef.current.select();
-    // } else {
-    // }
+    if (mode === 'Create' && nodes.length === 1) {
+      inputRef.current.hidden = false;
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
   }, [mode, inputRef, reactFlowRef]);
 
   const onNodesChange = useCallback(
@@ -214,6 +200,8 @@ export default function App() {
     } else if (e.key === 'Enter' && mode === 'Edit') {
       focusOnInput();
       setIsActive(true);
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
     }
   }
 
@@ -249,11 +237,6 @@ export default function App() {
     );
   }
 
-  // Complete Edit Mode - done
-  // Wire up the Edit and Create Mode
-  // Test the app
-  // Deploy to Vercel
-
   return (
     <div id='app'>
       <ReactFlowProvider>
@@ -287,15 +270,3 @@ export default function App() {
     </div>
   );
 }
-
-// Adding a featute which enables users to go back to a node to edit the text is important. The question is when to insert this mode into the app which allows this. The current flow looks like this:
-// 1. Add the label of the first node
-// 2. Create a node below or to the sides
-// 3. Add the label of the newly created node
-// 4. Go back to 2
-
-// Right now the user has no way of editing the label once they press 'Enter'. I could add a feature which allows users to press 'i' - this selects the latest node, the node which they pressed enter on and allows them to edit it back again. But I think this is not going to provide the most benefit. The user can be careful when the press 'Enter'. - this is taken care of by the Edit Mode.
-
-// Adding a feature which allows users to navigate the nodes once they have creaetd it fully and edit it will be the most benefecial. This means creating a Navigation mode. Once the user is happy with the structure of the flowchart - they can enter Navigation mode using the 'Escape' key. This allows users to navigate the board using the familiar keys which they used for board creation. The selected node's boundry will get highlighted as the user navigates. Once the user reaches a node where they want to make a change - they can press enter. This will popup the Input field allowing users to edit the label. User presses Enter and the label is completed. The focus goes back to node where the correction was just made, indicating that the user can correct more nodes if needed. Press 'Escape' to go back to Create mode to add nodes.
-
-// Small p tag in the bottom left corner indicating which mode the user is currently in would be great. - done
