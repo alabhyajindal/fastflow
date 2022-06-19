@@ -30,18 +30,11 @@ const initialNodes = [
     position: { x: 450, y: 125 },
     style: nodeStyle,
   },
-  {
-    id: '4',
-    data: { label: `Node 4` },
-    position: { x: 450, y: 225 },
-    style: nodeStyle,
-  },
 ];
 
 const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', type: 'smoothstep' },
   { id: 'e2-3', source: '2', target: '3', type: 'smoothstep' },
-  { id: 'e3-4', source: '3', target: '4', type: 'smoothstep' },
 ];
 
 // fitView method is extracted to a seperate component as reactFlowInstance can be accessed only by child elements of ReactFlowProvider.
@@ -60,6 +53,7 @@ export default function App() {
   const [nodeLabel, setNodeLabel] = useState('Untitled');
   const [justSwitched, setJustSwitched] = useState(false);
   const [mode, setMode] = useState('Edit');
+  const [toggleCount, setToggleCount] = useState(0);
 
   const reactFlowRef = useRef(null);
   const inputRef = useRef(null);
@@ -196,12 +190,16 @@ export default function App() {
   }
 
   function toggleNodes() {
-    const selectedNodeId = nodes[nodes.length - 1].id;
+    if (toggleCount === nodes.length - 1) {
+      setToggleCount(0);
+    }
+
+    const selectedNodeId = nodes[toggleCount].id;
     const selectedNodeIdStyle = {
       background: '#94a3b8  ',
       color: '#1e293b',
-      border: '1.5px solid #1e293b',
     };
+
     setNodes((n) =>
       n.map((node) => {
         if (node.id === selectedNodeId) {
@@ -210,8 +208,14 @@ export default function App() {
         return { ...node, style: nodeStyle };
       })
     );
-    // Wire up the Edit and Create Mode. Test it out
+
+    if (toggleCount < nodes.length - 1) setToggleCount((t) => t + 1);
   }
+
+  // Wire up the Edit and Create Mode
+  // Test the app
+  // Deploy to Vercel
+  // Create the modal for user onbaording
 
   return (
     <div id='app'>
