@@ -9,7 +9,9 @@ export default function Guide() {
 
   return (
     <div id='guide-main'>
-      <h1>Welcome to Fast Flow</h1>
+      <h1>
+        Welcome to <span id='fast-flow-h1'>Fast Flow</span>
+      </h1>
       <p>
         Fast Flow is a new way to create flow charts using only your keyboard.
       </p>

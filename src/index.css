@@ -64,24 +64,35 @@ body {
 
 #guide-main {
   padding-top: 0.5rem;
-  max-width: 30rem;
+  max-width: 35rem;
   margin: 0 auto;
 
   color: #475569;
 }
 
-#guide-main h1,
-h3 {
+#guide-main h1 {
+  font-size: 3rem;
+  color: #1e293b;
+  letter-spacing: -2px;
+}
+
+#guide-main #fast-flow-h1 {
+  color: #10b981;
+}
+
+#guide-main h3 {
+  font-size: 1.2rem;
   color: #1e293b;
 }
 
 #guide-main p {
-  margin: 0.7rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
   line-height: 1.3;
 }
 
 #guide-main ul {
-  /* list-style-type: square; */
+  list-style-type: none;
 }
 
 #guide-main h3 {
