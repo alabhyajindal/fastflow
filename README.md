@@ -1,5 +1,7 @@
 ## Fast Flow
 
+![lotr](https://user-images.githubusercontent.com/52493077/174545042-a01eb197-23ad-413c-b5f3-753587e1eb24.jpg)
+
 Fast Flow is a new way to create flow charts using only your keyboard.
 
 It has two modes - the default Create Mode and an Edit Mode.
