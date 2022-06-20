@@ -17,13 +17,12 @@ export default function Guide() {
         Fast Flow is a new way to create flow charts using only your keyboard.
       </p>
       <p>
-        Fast Flow has two modes - the default <em>Create Mode</em> and an{' '}
+        It has two modes - the default <em>Create Mode</em> and an{' '}
         <em>Edit Mode</em>.
       </p>
       <p>
-        You will spend most of your time in the Create Mode. This allows to
-        create nodes and add labels to them. Following actions are available in
-        this Mode:
+        Create Mode allows you to create nodes and add labels to them. Following
+        actions are available in this Mode:
       </p>
       <ul>
         <li>
@@ -42,24 +41,22 @@ export default function Guide() {
       <p>
         Create Mode automatically selects all newly created box for you to enter
         the label. Type the label name, and press <strong>Enter</strong> when
-        you are done.
+        you are done. You can toggle between the two modes by pressing the{' '}
+        <strong>Esc</strong> key.
       </p>
 
-      <p>
-        You can switch to the Edit Mode by pressing the <strong>Esc</strong>{' '}
-        key. Following actions are available in the Edit Mode:
-      </p>
+      <p>Following actions are available in the Edit Mode:</p>
       <ul>
         <li>
           <strong>Tab</strong> - Toggle between the boxes
         </li>
         <li>
-          <strong>Enter</strong> - Select the label of the box
+          <strong>Enter</strong> - Edit the label of a box
         </li>
       </ul>
       <p>
-        Once the box is selected, you can press <strong>Enter</strong> to
-        confirm. Press <strong>Esc</strong> to switch back to Create Mode.
+        Once you are done editing the label of a box, you can press{' '}
+        <strong>Enter</strong> to confirm.
       </p>
       <br />
       <h3>
