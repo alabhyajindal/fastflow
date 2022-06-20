@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 export default function Guide() {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      document.getElementById('link-to-flow').click();
+      const link = document.getElementById('link-to-flow');
+      if (link) link.click();
     }
   });
 
@@ -21,7 +22,8 @@ export default function Guide() {
       </p>
       <p>
         You will spend most of your time in the Create Mode. This allows to
-        create nodes and add labels to them. Following are the controls:
+        create nodes and add labels to them. Following actions are available in
+        this Mode:
       </p>
       <ul>
         <li>
@@ -45,7 +47,7 @@ export default function Guide() {
 
       <p>
         You can switch to the Edit Mode by pressing the <strong>Esc</strong>{' '}
-        key. Following are the controls for the Edit Mode:
+        key. Following actions are available in the Edit Mode:
       </p>
       <ul>
         <li>

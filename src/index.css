@@ -52,8 +52,11 @@ body {
   top: 0px;
   left: 5px;
   z-index: 4;
-  color: #1e293b;
-  font-weight: 500;
+
+  padding: 5px 10px;
+  color: #10b981;
+  font-weight: 600;
+  font-size: larger;
 }
 
 .react-flow {
