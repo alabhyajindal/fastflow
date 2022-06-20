@@ -2,7 +2,7 @@
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 400 800;
-  font-display: optional;
+  font-display: block;
   src: local('IBM Plex Sans'),
     url(./fonts/ibm-plex-sans-var.woff2) format('woff2');
 }
