@@ -85,6 +85,9 @@ body {
 
 #guide-main h3 {
   font-size: 1.2rem;
+}
+
+#guide-main #enter {
   color: #1e293b;
 }
 

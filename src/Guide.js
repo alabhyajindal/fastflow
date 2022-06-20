@@ -63,7 +63,7 @@ export default function Guide() {
       </p>
       <br />
       <h3>
-        Press <strong>Enter</strong> to begin a Flow
+        Press <strong id='enter'>Enter</strong> to begin.
       </h3>
       <Link id='link-to-flow' to='/flow'>
         Flow
